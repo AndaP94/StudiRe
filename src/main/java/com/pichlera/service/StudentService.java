@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,10 @@ import java.util.Optional;
 @Service
 @Transactional
 public class StudentService {
+
+    private final String TUGRAZ = "30";
+
+    private String matrikelnumber = "";
 
     private final Logger log = LoggerFactory.getLogger(StudentService.class);
 
@@ -28,6 +35,19 @@ public class StudentService {
 
     /**
      * Save a student.
+     *
+     * @param student the entity to save
+     * @return the persisted entity
+     */
+    public Student saveStudentCreate(Student student) {
+        log.debug("Request to save Student : {}", student);
+        Student result = studentRepository.save(student);
+        result.setMatrikelnummer(getGeneratedMatricelNumber(result));
+        return studentRepository.save(result);
+    }
+
+    /**
+     * Save a student by Update.
      *
      * @param student the entity to save
      * @return the persisted entity
@@ -69,5 +89,25 @@ public class StudentService {
     public void delete(Long id) {
         log.debug("Request to delete Student : {}", id);
         studentRepository.deleteById(id);
+    }
+
+    private String getMatricelNumberYear(){
+        DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+        String formattedDate = df.format(Calendar.getInstance().getTime());
+        return formattedDate;
+    }
+
+    private Long getGeneratedMatricelNumber(Student student){
+        String year = getMatricelNumberYear();
+        long studentId = student.getId();
+        long generatedMatrikelnummer = 0;
+        this.matrikelnumber = year + TUGRAZ + String.format("%03d", studentId);
+        try{
+            generatedMatrikelnummer = Long.valueOf(this.matrikelnumber);
+        }catch (NumberFormatException ex){
+            ex.printStackTrace();
+        }
+
+        return generatedMatrikelnummer;
     }
 }
