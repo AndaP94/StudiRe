@@ -1,0 +1,88 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-student-heading">Create or edit a Student</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!student.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="student.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_matrikelnummer">Matrikelnummer</label>
+                    <input type="number" class="form-control" name="matrikelnummer" id="field_matrikelnummer"
+                        [(ngModel)]="student.matrikelnummer" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nachname">Nachname</label>
+                    <input type="text" class="form-control" name="nachname" id="field_nachname"
+                        [(ngModel)]="student.nachname" required/>
+                    <div [hidden]="!(editForm.controls.nachname?.dirty && editForm.controls.nachname?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.nachname?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_vorname">Vorname</label>
+                    <input type="text" class="form-control" name="vorname" id="field_vorname"
+                        [(ngModel)]="student.vorname" required/>
+                    <div [hidden]="!(editForm.controls.vorname?.dirty && editForm.controls.vorname?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.vorname?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_strasse_hausnummer">Strasse Hausnummer</label>
+                    <input type="text" class="form-control" name="strasse_hausnummer" id="field_strasse_hausnummer"
+                        [(ngModel)]="student.strasse_hausnummer" required/>
+                    <div [hidden]="!(editForm.controls.strasse_hausnummer?.dirty && editForm.controls.strasse_hausnummer?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.strasse_hausnummer?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_postleitzahl">Postleitzahl</label>
+                    <input type="number" class="form-control" name="postleitzahl" id="field_postleitzahl"
+                        [(ngModel)]="student.postleitzahl" required/>
+                    <div [hidden]="!(editForm.controls.postleitzahl?.dirty && editForm.controls.postleitzahl?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.postleitzahl?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.postleitzahl?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ort">Ort</label>
+                    <input type="text" class="form-control" name="ort" id="field_ort"
+                        [(ngModel)]="student.ort" required/>
+                    <div [hidden]="!(editForm.controls.ort?.dirty && editForm.controls.ort?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.ort?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
