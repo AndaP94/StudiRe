@@ -21,6 +21,8 @@ import java.util.Optional;
 @Transactional
 public class StudentService {
 
+    private int count = 0;
+
     private final String TUGRAZ = "30";
 
     private String matrikelnumber = "";
@@ -41,9 +43,8 @@ public class StudentService {
      */
     public Student saveStudentCreate(Student student) {
         log.debug("Request to save Student : {}", student);
-        Student result = studentRepository.save(student);
-        result.setMatrikelnummer(getGeneratedMatricelNumber(result));
-        return studentRepository.save(result);
+        student.setMatrikelnummer(getGeneratedMatricelNumber());
+        return studentRepository.save(student);
     }
 
     /**
@@ -97,16 +98,16 @@ public class StudentService {
         return formattedDate;
     }
 
-    private Long getGeneratedMatricelNumber(Student student){
+    private Long getGeneratedMatricelNumber(){
         String year = getMatricelNumberYear();
-        long studentId = student.getId();
         long generatedMatrikelnummer = 0;
-        this.matrikelnumber = year + TUGRAZ + String.format("%03d", studentId);
+        this.matrikelnumber = year + TUGRAZ + String.format("%03d", count);
         try{
             generatedMatrikelnummer = Long.valueOf(this.matrikelnumber);
         }catch (NumberFormatException ex){
             ex.printStackTrace();
         }
+        count++;
 
         return generatedMatrikelnummer;
     }
