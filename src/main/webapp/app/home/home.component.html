@@ -1,8 +1,8 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-6">
         <span class="hipster img-fluid rounded"></span>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-6">
         <h1 class="display-4">Welcome, to the StudiRe Application</h1>
         <p class="lead">This is your App to save your Students</p>
 
@@ -22,5 +22,37 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<div [ngSwitch]="isAuthenticated()">
+    <div *ngSwitchCase="true">
+        <h3>Your Students</h3>
+        <div class="table-responsive" *ngIf="students">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Matrikelnummer</span></th>
+                    <th><span>Nachname</span></th>
+                    <th><span>Vorname</span></th>
+                    <th><span>Strasse Hausnummer</span></th>
+                    <th><span>Postleitzahl</span></th>
+                    <th><span>Ort</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let student of students ;trackBy: trackId">
+                    <td><a [routerLink]="['/student', student.id, 'view' ]">{{student.id}}</a></td>
+                    <td>{{student.matrikelnummer}}</td>
+                    <td>{{student.nachname}}</td>
+                    <td>{{student.vorname}}</td>
+                    <td>{{student.strasse_hausnummer}}</td>
+                    <td>{{student.postleitzahl}}</td>
+                    <td>{{student.ort}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
